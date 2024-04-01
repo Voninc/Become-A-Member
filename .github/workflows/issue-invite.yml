@@ -14,7 +14,7 @@ jobs:
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v4
         with:
-          issue-number: github.event.issue.number
+          issue-number: ${{github.event.issue.number}}
           body: |
             Thank you for showing your interest in joining Voninc
             You will soon be invited to the team, visit you [organization list](https://github.com/settings/organizations) and approve the invite to become a member.
