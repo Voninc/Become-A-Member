@@ -5,17 +5,32 @@ on:
     types: [opened]
 
 jobs:
-  Comment-with-action:
+  invite-to-org:
     runs-on: ubuntu-latest
     steps:
-      - name: Create comment
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          issue-number: ${{github.event.issue.number}}
-          body: |
-            This is a multi-line test comment
-            - With GitHub **Markdown** :sparkles:
-            - Created by [create-or-update-comment][1]
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-            [1]: https://github.com/peter-evans/create-or-update-comment
-          reactions: '+1'
+      - name: Invite user to organization
+        uses: peter-evans/github-actions@v3
+        with:
+          script: |
+            TOKEN="${{ secrets.GITHUB_TOKEN }}"
+            ORG_NAME="your-org-name"
+            ISSUE_CREATOR="${{ github.event.issue.user.login }}"
+
+            # Invite the user to the organization
+            response=$(curl -X POST \
+              -H "Authorization: token $TOKEN" \
+              -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/orgs/$ORG_NAME/invitations \
+              -d "{\"invitee_id\":\"$ISSUE_CREATOR\"}")
+
+            # Check if the invitation was successful
+            if [[ "$response" =~ "invitation_id" ]]; then
+              echo "Invitation sent successfully!"
+            else
+              echo "Failed to send invitation."
+              echo "$response"
+              exit 1
+            fi
