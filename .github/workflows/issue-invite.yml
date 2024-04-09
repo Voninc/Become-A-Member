@@ -2,23 +2,26 @@ name: Send Organization Invite
 
 on:
   issues:
-    types: [opened]
+    types: [opened, reopened]
+
 permissions:
   actions: read|write
   checks: read|write
   contents: read|write
   id-token: read|write
   issues: read|write
+
 jobs:
   invite-to-org:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
+
       - name: Dump Github context
         run: echo '${{ toJSON(github.event) }}' | jq
         shell: bash
+
       - name: Add Comment
         uses: peter-evans/create-or-update-comment@v4
         with:
