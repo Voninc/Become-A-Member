@@ -6,6 +6,7 @@ on:
 
 permissions:
   actions: write
+  issues: write
   
 jobs:
   invite-to-org:
