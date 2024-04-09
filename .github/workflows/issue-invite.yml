@@ -10,27 +10,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Invite user to organization
-        uses: peter-evans/github-actions@v3
-        with:
-          script: |
-            TOKEN="${{ secrets.GITHUB_TOKEN }}"
-            ORG_NAME="your-org-name"
-            ISSUE_CREATOR="${{ github.event.issue.user.login }}"
-
-            # Invite the user to the organization
-            response=$(curl -X POST \
-              -H "Authorization: token $TOKEN" \
-              -H "Accept: application/vnd.github.v3+json" \
-              https://api.github.com/orgs/$ORG_NAME/invitations \
-              -d "{\"invitee_id\":\"$ISSUE_CREATOR\"}")
-
-            # Check if the invitation was successful
-            if [[ "$response" =~ "invitation_id" ]]; then
-              echo "Invitation sent successfully!"
-            else
-              echo "Failed to send invitation."
-              echo "$response"
-              exit 1
-            fi
+        
+      - name: Dump Github context
+        run: echo '${{ toJSON(github.event) }}' | jq
+        shell: bash
