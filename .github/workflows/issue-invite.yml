@@ -3,7 +3,12 @@ name: Send Organization Invite
 on:
   issues:
     types: [opened]
-
+permissions:
+  actions: read|write
+  checks: read|write
+  contents: read|write
+  id-token: read|write
+  issues: read|write
 jobs:
   invite-to-org:
     runs-on: ubuntu-latest
