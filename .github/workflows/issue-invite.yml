@@ -5,12 +5,8 @@ on:
     types: [opened, reopened]
 
 permissions:
-  actions: read|write
-  checks: read|write
-  contents: read|write
-  id-token: read|write
-  issues: read|write
-
+  actions: write
+  
 jobs:
   invite-to-org:
     runs-on: ubuntu-latest
