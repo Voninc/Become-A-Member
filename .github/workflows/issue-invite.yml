@@ -9,16 +9,17 @@ permissions:
   issues: write
   
 jobs:
-  invite-to-org:
+  Dump_Github_Context:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
       - name: Dump Github context
         run: echo '${{ toJSON(github.event) }}' | jq
         shell: bash
 
+      
+  Comment_on_Issue:
+    runs-on: ubuntu-latest
+    steps:
       - name: Add Comment
         uses: peter-evans/create-or-update-comment@v4
         with:
@@ -28,4 +29,19 @@ jobs:
             An invitation has been sent to your account! Please check your [organization page][1]
             
             [1]: https://github.com/settings/organizations
-      
+  Invite_to_Organization:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Invite User using Github CLI
+        run: |
+          gh api \
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          /orgs/${ORGANIZATION}/invitations \
+          -f invitee_id='${USERID}' \
+          -f role='direct_member' \
+        env:
+          ORGANIZATION: ${{ github.event.organization.login }}
+          USERID: ${{ github.event.issue.user.id }}
+          
