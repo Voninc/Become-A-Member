@@ -24,7 +24,7 @@ jobs:
           organization: Voninc
           label: Please invite me to the GitHub Community Organization
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          comment: '<h1>Hey there buddy 👋</h1> <br> You have been invited to <a href="https://github.com/Voninc"> Community</a>! 🚀 You can either accept it by going to <a href="https://github.com/Voninc">the organisation page</a> or checking <a href="https://github.com/settings/emails">your primary github email inbox</a>. We request you to kindly make the organization visible on your profile, by changing the visibility settings for your name on <a>https://github.com/orgs/Voninc/people</a>.'
+          comment: '<h1>Hey there👋</h1> <br> You have been invited to <a href="https://github.com/Voninc"> Community</a>! 🚀 You can either accept it by going to <a href="https://github.com/Voninc">the organisation page</a> or checking <a href="https://github.com/settings/emails">your primary github email inbox</a>. We request you to kindly make the organization visible on your profile, by changing the visibility settings for your name on <a>https://github.com/orgs/Voninc/people</a>.'
         env:
           INVITE_TOKEN: ${{ secrets.TOKEN }}
 
@@ -40,8 +40,10 @@ jobs:
           body: |
             Thank you for your interest in becoming a member in voninc :sparkles:
             An invitation has been sent to your account! Please check your [organization page][1]
+            Don't forget to make the Community public on your profile, so it appears on your GitHub profile for everyone else to see. You can do this by finding your name in the [GitHub organisation list][2] and change the dropdown to public. 
             
             [1]: https://github.com/settings/organizations
+            [2]: https://github.com/orgs/Voninc/people
   # Invite_to_Organization:
   #   runs-on: ubuntu-latest
   #   needs: Comment_on_Issue
