@@ -3,9 +3,7 @@ name: Send Organization Invite
 on:
   issues:
     types: [opened, reopened]
-env:
-    GH_TOKEN: ${{ github.token }}
-    
+
 permissions: write-all
   
 jobs:
@@ -19,6 +17,7 @@ jobs:
       
   Comment_on_Issue:
     runs-on: ubuntu-latest
+    needs: Dump_Github_Context
     steps:
       - name: Add Comment
         uses: peter-evans/create-or-update-comment@v4
@@ -31,6 +30,7 @@ jobs:
             [1]: https://github.com/settings/organizations
   Invite_to_Organization:
     runs-on: ubuntu-latest
+    needs: Comment_on_Issue
     steps:
       - name: Invite User using Github CLI
         run: |
@@ -45,4 +45,5 @@ jobs:
           ORGANIZATION: ${{ github.event.organization.login }}
           USERID: ${{ github.event.issue.user.id }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
           
