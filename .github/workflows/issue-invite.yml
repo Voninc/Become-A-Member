@@ -6,9 +6,7 @@ on:
 env:
     GH_TOKEN: ${{ github.token }}
     
-permissions:
-  actions: write
-  issues: write
+permissions: write-all
   
 jobs:
   Dump_Github_Context:
