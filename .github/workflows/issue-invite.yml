@@ -32,17 +32,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: Comment_on_Issue
     steps:
-      - name: Invite User using Github CLI
+      - name: Invite User using Github CLI with JSON Payload
         run: |
+          echo '{"invitee_id":${USERID}, "role":"direct_member"}' | \
           gh api \
           --method POST \
           -H "Accept: application/vnd.github+json" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           /orgs/${ORGANIZATION}/invitations \
-          -f invitee_id=${USERID} \
-          -f role='direct_member' \
+          --input -
         env:
           ORGANIZATION: ${{ github.event.organization.login }}
           USERID: ${{ github.event.issue.user.id }}
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-          
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            
