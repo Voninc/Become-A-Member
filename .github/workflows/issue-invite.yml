@@ -43,7 +43,11 @@ jobs:
             Don't forget to make the Community public on your profile, so it appears on your GitHub profile for everyone else to see. You can do this by finding your name in the [GitHub organisation list][2] and change the dropdown to public. 
             
             [1]: https://github.com/settings/organizations
-            [2]: https://github.com/orgs/Voninc/people
+            [2]: https://github.com/orgs/Voninc/people\
+      - name: Close issue
+        uses: peter-evans/close-issue@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
   # Invite_to_Organization:
   #   runs-on: ubuntu-latest
   #   needs: Comment_on_Issue
