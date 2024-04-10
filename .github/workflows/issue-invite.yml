@@ -22,7 +22,7 @@ jobs:
         uses: vj-abigo/invite-on-label@v1.4
         with:
           organization: Voninc
-          label: Please invite me to the GitHub Community Organization
+          label: invitation
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           comment: 'Invitation has been sent'
         env:
