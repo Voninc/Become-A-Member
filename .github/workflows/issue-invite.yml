@@ -19,7 +19,7 @@ jobs:
     needs: Dump_Github_Context
     steps:
       - name: Invite on label
-        uses: vj-abigo/invite-on-label@v1.3
+        uses: vj-abigo/invite-on-label@v1.4
         with:
           organization: Voninc
           label: Please invite me to the GitHub Community Organization
