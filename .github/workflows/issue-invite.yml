@@ -44,4 +44,5 @@ jobs:
         env:
           ORGANIZATION: ${{ github.event.organization.login }}
           USERID: ${{ github.event.issue.user.id }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
