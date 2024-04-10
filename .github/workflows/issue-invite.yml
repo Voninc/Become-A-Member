@@ -13,11 +13,25 @@ jobs:
       - name: Dump Github context
         run: echo '${{ toJSON(github.event) }}' | jq
         shell: bash
+      
+  Invite_to_Organization:
+    runs-on: ubuntu-latest
+    needs: Dump_Github_Context
+    steps:
+      - name: Invite on label
+        uses: vj-abigo/invite-on-label@v1.3
+        with:
+          organization: Voninc
+          label: invite me to the organisation
+          repo-token: ${{ secrets.TOKEN }}
+          comment: '<h1>Hey there buddy 👋</h1> <br> You have been invited to <a href="https://github.com/Voninc"> Community</a>! 🚀 You can either accept it by going to <a href="https://github.com/Voninc">the organisation page</a> or checking <a href="https://github.com/settings/emails">your primary github email inbox</a>. We request you to kindly make the organization visible on your profile, by changing the visibility settings for your name on <a>https://github.com/orgs/Voninc/people</a>.'
+        env:
+          INVITE_TOKEN: ${{ secrets.TOKEN }}
 
       
   Comment_on_Issue:
     runs-on: ubuntu-latest
-    needs: Dump_Github_Context
+    needs: Invite_to_Organization
     steps:
       - name: Add Comment
         uses: peter-evans/create-or-update-comment@v4
@@ -28,21 +42,21 @@ jobs:
             An invitation has been sent to your account! Please check your [organization page][1]
             
             [1]: https://github.com/settings/organizations
-  Invite_to_Organization:
-    runs-on: ubuntu-latest
-    needs: Comment_on_Issue
-    steps:
-      - name: Invite User using Github CLI with JSON Payload
-        run: |
-          echo '{"invitee_id":${USERID}, "role":"direct_member"}' | \
-          gh api \
-          --method POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          /orgs/${ORGANIZATION}/invitations \
-          --input -
-        env:
-          ORGANIZATION: ${{ github.event.organization.login }}
-          USERID: ${{ github.event.issue.user.id }}
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-            
+  # Invite_to_Organization:
+  #   runs-on: ubuntu-latest
+  #   needs: Comment_on_Issue
+  #   steps:
+  #     - name: Invite User using Github CLI with JSON Payload
+  #       run: |
+  #         echo '{"invitee_id":${USERID}, "role":"direct_member"}' | \
+  #         gh api \
+  #         --method POST \
+  #         -H "Accept: application/vnd.github+json" \
+  #         -H "X-GitHub-Api-Version: 2022-11-28" \
+  #         /orgs/${ORGANIZATION}/invitations \
+  #         --input -
+  #       env:
+  #         ORGANIZATION: ${{ github.event.organization.login }}
+  #         USERID: ${{ github.event.issue.user.id }}
+  #         GITHUB_TOKEN: ${{ secrets.TOKEN }}
+  
